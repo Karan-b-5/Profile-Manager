@@ -7,6 +7,7 @@ import Home from './components/Home'
 import AdminLogin from './components/AdminLogin'
 import AdminDashboard from './components/AdminDashBoard'
 import Navbar from './components/Navbar'
+import ErrorPage from './components/ErrorPage'
 
 
 
@@ -17,7 +18,7 @@ const router = createBrowserRouter(
       element: <>
         <Navbar />
         <Home />
-      </>,  // Home as the landing page
+      </>, 
     },
     {
       path: '/profiles',
@@ -47,8 +48,11 @@ const router = createBrowserRouter(
         <Navbar />
         <AdminDashboard />
       </>,
+    },
+    { 
+      path: '*', 
+      element: <ErrorPage />, 
     }
-
   ]
 )
 
@@ -58,10 +62,8 @@ function App() {
   return (
     <>
       <ProfileProvider>
-        {/* <Navbar /> */}
         <RouterProvider router={router}/>
       </ProfileProvider>
-     {/* <ProfileList/> */}
     </>
   )
 }
