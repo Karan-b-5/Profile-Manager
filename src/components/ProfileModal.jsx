@@ -53,13 +53,9 @@ const ProfileModal = ({ isOpen, closeModal, onSave, profile }) => {
     const value = formData?.address
       try { 
         const coordinates = await useGetCoordinates(value); 
-        console.log("coordinates", coordinates);
         setFormData({ ...formData, location: coordinates }); 
-        console.log("setting", formData);
-        
       } catch (error) { 
         window.alert('Failed to fetch coordinates:', error); 
-        console.log(error); 
       }
   }
 
@@ -200,7 +196,6 @@ const ProfileModal = ({ isOpen, closeModal, onSave, profile }) => {
               className="w-full px-4 py-2 mb-2 rounded-lg border border-gray-300"
             />
           </label>
-          {console.log(formData)}
           <button onClick={handleGetCoordinates} className="bg-green-500 text-white px-4 py-2 rounded-lg">
               Get Coordinates
           </button>

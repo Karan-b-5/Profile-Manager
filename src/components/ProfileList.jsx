@@ -3,8 +3,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import MapComponent from './MapComponent';
 import useGenerateProfiles from '../hooks/useGenerateProfiles';
 import { ProfileContext } from './ProfileContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
+// Dummy profiles
 // const profiles = [
 //   { name: 'John Doe', photo: 'john.jpg', description: 'Software Engineer', location: { lat: 37.7749, lng: -122.4194 } },
 //   { name: 'Jane Smith', photo: 'jane.jpg', description: 'Designer', location: { lat: 34.0522, lng: -118.2437 } }
@@ -13,14 +14,11 @@ import { useNavigate } from 'react-router-dom';
 
 const ProfileList = () => {
   const [selectedProfile, setSelectedProfile] = useState(null);
-  // const [profiles, setProfiles] = useState([]);
   const { profiles, setProfiles } = useContext(ProfileContext);
-  console.log(profiles);
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState(''); 
   const [genderFilter, setGenderFilter] = useState(''); 
-  // const [ageFilter, setAgeFilter] = useState(''); 
   const [ageFilterType, setAgeFilterType] = useState(''); 
   const [ageFilterValue, setAgeFilterValue] = useState('');
   const [locationFilter, setLocationFilter] = useState(''); 
@@ -49,9 +47,6 @@ const ProfileList = () => {
     } 
   }; 
   
-  // const filteredProfiles = profiles.filter((profile) => { 
-    // return ( (searchQuery === '' || profile.name.toLowerCase().includes(searchQuery.toLowerCase())) && (genderFilter === '' || profile.gender === genderFilter) && (ageFilter === '' || profile.age === parseInt(ageFilter)) && (locationFilter === '' || profile.address.toLowerCase().includes(locationFilter.toLowerCase())) );
-  // });
 
   const filteredProfiles = profiles.filter((profile) => { 
     const isAgeFilterValid = () => { 
@@ -70,16 +65,9 @@ const ProfileList = () => {
       (locationFilter === '' || profile.address.toLowerCase().includes(locationFilter.toLowerCase())) 
     ); 
   });
-  
-
-  // useEffect(() => { 
-  //   const data = useGenerateProfiles(10); // Generate 10 dummy profiles 
-  //   setProfiles(data); 
-  // }, []);
 
   const showMap = (profile) => { 
-    // setSelectedProfile(profile);
-    navigate(`/profile/${profile.name}`); // Navigate to the profile detail page 
+    navigate(`/profile/${profile.name}`);
   };
 
 
@@ -90,8 +78,6 @@ const ProfileList = () => {
         <h1 className="text-4xl font-bold mb-6 ">Profile List</h1> 
         <hr className="my-4"/> 
       </div>
-
-      
 
       <div className="mb-8 flex flex-wrap justify-center gap-4 mx-auto w-full max-w-2xl border-b-2 pb-4"> 
         <input type="text" placeholder="Search by name" value={searchQuery} onChange={handleSearch} className="px-4 py-2 basis-full rounded-lg border border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:outline-none" /> 
@@ -113,6 +99,17 @@ const ProfileList = () => {
         </div> 
         <input type="text" placeholder="Search by Location (City or Country)" name="location" value={locationFilter} onChange={handleFilter} className="px-4 basis-full py-2 rounded-lg border border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:outline-none" /> 
       </div>
+
+      {profiles.length === 0 && 
+        <div className='w-full flex flex-col gap-8 justify-center items-center'>
+            <h1 className='font-bold text-6xl text-center'>No Profile Found !</h1>
+            <Link to="/">
+              <button className="bg-indigo-500 hover:bg-indigo-600 text-xl text-white px-6 py-3 rounded-lg shadow-lg transition-colors duration-200">
+              Go to Home
+            </button>
+          </Link>
+        </div>
+      }
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
         {filteredProfiles.map((profile, index) => (
